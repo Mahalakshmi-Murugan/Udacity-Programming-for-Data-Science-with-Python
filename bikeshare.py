@@ -119,17 +119,34 @@ def user_stats(df):
     """Displays statistics on bikeshare users."""
 
     print('\nCalculating User Stats...\n')
+    print("Applied Filter >> {}".format(applied_filter))
     start_time = time.time()
 
-    # Display counts of user types
+    # TO DO: Display counts of user types
+    print('\n...User Types...')
+    subscriber_counts = df[df['User Type'] == 'Subscriber'].count()[0]
+    customer_counts = df[df['User Type'] == 'Customer'].count()[0]
+    print("Subscribers:{}, Customers:{}".format(subscriber_counts, customer_counts))
 
+    # TO DO: Display counts of gender
+    try:
+      print('\n...Gender...')
+      male_counts = df[df['Gender'] == 'Male'].count()[0]
+      female_counts = df[df['Gender'] == 'Female'].count()[0]
+      print("Male:{}, Female:{}".format(male_counts, female_counts))
+    except KeyError:
+      print("!!! The city you've selected doesn't have Gender data !!!")
 
-    # Display counts of gender
-
-
-    # Display earliest, most recent, and most common year of birth
-
-
+    # TO DO: Display earliest, most recent, and most common year of birth
+    try:
+      print('\n...Birth Year...')
+      earliest_birth_year = int(df['Birth Year'].min())
+      recent_birth_year = int(df['Birth Year'].max())
+      common_birth_year = int(df['Birth Year'].mode()[0])
+      print("Earliest:{}, Most Recent:{}, Most Common:{}".format(earliest_birth_year, recent_birth_year, common_birth_year))
+    except KeyError:
+      print("!!! The city you've selected doesn't have Birth Year data !!!")
+   
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
