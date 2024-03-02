@@ -137,16 +137,28 @@ def station_stats(df):
     """Displays statistics on the most popular stations and trip."""
 
     print('\nCalculating The Most Popular Stations and Trip...\n')
+    print("Applied Filter >> {}".format(applied_filter))
     start_time = time.time()
 
-    # display most commonly used start station
+    print('\n...Popular Station...')
+    # TO DO: display most commonly used start station
+    start_station = df['Start Station'].mode()[0]
+    start_station_counts = df[df['Start Station'] == start_station].count()[0]
+    print("Start Station:{}, Count:{}".format(start_station, start_station_counts))
 
+    # TO DO: display most commonly used end station
+    end_station = df['End Station'].mode()[0]
+    end_station_counts = df[df['End Station'] == end_station].count()[0]
+    print("End Station:{}, Count:{}".format(end_station, end_station_counts))
+    # print("Start Station:{}, Count:{} - End Station:{}, Count:{}, Filter:{}".format(start_station, start_station_counts, end_station, end_station_counts, applied_filter))
 
-    # display most commonly used end station
-
-
-    # display most frequent combination of start station and end station trip
-
+    print('\n...Popular Trip...')
+    df['Trip combination'] = df['Start Station']+' - '+df['End Station']
+    # print(df)
+    # TO DO: display most frequent combination of start station and end station trip
+    popular_trip_station = df['Trip combination'].mode()[0]
+    popular_trip_station_counts = df[df['Trip combination'] == popular_trip_station].count()[0]
+    print("Trip:({}, {}), Count:{}".format(popular_trip_station.split(" - ")[0], popular_trip_station.split(" - ")[1], popular_trip_station_counts))
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -156,12 +168,16 @@ def trip_duration_stats(df):
     """Displays statistics on the total and average trip duration."""
 
     print('\nCalculating Trip Duration...\n')
+    print("Applied Filter >> {}".format(applied_filter))
     start_time = time.time()
 
-    # display total travel time
+    # TO DO: display total travel time
+    total_travel_time = df['Trip Duration'].sum()
+    total_travel_counts = df['Trip Duration'].count()
+    avg_travel_time = df['Trip Duration'].mean()
+    print("Total Duration:{}, Count:{}, Average Duration:{}".format(total_travel_time.round(2), total_travel_counts, avg_travel_time.round(2)))
 
-
-    # display mean travel time
+    # TO DO: display mean travel time
 
 
     print("\nThis took %s seconds." % (time.time() - start_time))
@@ -172,19 +188,49 @@ def user_stats(df):
     """Displays statistics on bikeshare users."""
 
     print('\nCalculating User Stats...\n')
+    print("Applied Filter >> {}".format(applied_filter))
     start_time = time.time()
 
-    # Display counts of user types
+    # TO DO: Display counts of user types
+    print('\n...User Types...')
+    subscriber_counts = df[df['User Type'] == 'Subscriber'].count()[0]
+    customer_counts = df[df['User Type'] == 'Customer'].count()[0]
+    print("Subscribers:{}, Customers:{}".format(subscriber_counts, customer_counts))
 
+    # TO DO: Display counts of gender
+    try:
+      print('\n...Gender...')
+      male_counts = df[df['Gender'] == 'Male'].count()[0]
+      female_counts = df[df['Gender'] == 'Female'].count()[0]
+      print("Male:{}, Female:{}".format(male_counts, female_counts))
+    except KeyError:
+      print("!!! The city you've selected doesn't have Gender data !!!")
 
-    # Display counts of gender
-
-
-    # Display earliest, most recent, and most common year of birth
-
-
+    # TO DO: Display earliest, most recent, and most common year of birth
+    try:
+      print('\n...Birth Year...')
+      earliest_birth_year = int(df['Birth Year'].min())
+      recent_birth_year = int(df['Birth Year'].max())
+      common_birth_year = int(df['Birth Year'].mode()[0])
+      print("Earliest:{}, Most Recent:{}, Most Common:{}".format(earliest_birth_year, recent_birth_year, common_birth_year))
+    except KeyError:
+      print("!!! The city you've selected doesn't have Birth Year data !!!")
+   
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
+
+
+def individual_trip_data(df):
+    total_records_count = df.count()[0]
+    record_count = 0
+    next_page_flag = True
+    while next_page_flag != False and record_count < total_records_count:
+      individual_record = input('\nWould you like to view individual trip data? Type ‘yes’ or ‘no’.\n')
+      if individual_record.lower() == 'yes':
+        print(df[record_count:(record_count+5)])
+        record_count +=5
+      else:
+        next_page_flag = False
 
 
 def main():
@@ -196,6 +242,8 @@ def main():
         station_stats(df)
         trip_duration_stats(df)
         user_stats(df)
+
+        individual_trip_data(df)
 
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
