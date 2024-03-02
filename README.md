@@ -27,5 +27,5 @@ Files required to run this program:
 + [GitHub](https://github.com/)
 
 ### Credits
-Credits goes to [Udacity](https://www.udacity.com/) [Programming for Data Science with Python Nanodegree](https://www.udacity.com/course/programming-for-data-science-nanodegree--nd104) program.
+Credits goes to [Programming for Data Science with Python Nanodegree](https://www.udacity.com/course/programming-for-data-science-nanodegree--nd104) program by [Udacity](https://www.udacity.com/).
 

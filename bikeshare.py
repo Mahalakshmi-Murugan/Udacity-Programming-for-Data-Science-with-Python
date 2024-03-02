@@ -5,6 +5,7 @@ import numpy as np
 CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
+applied_filter = None
 
 def get_filters():
     """
@@ -16,14 +17,52 @@ def get_filters():
         (str) day - name of the day of week to filter by, or "all" to apply no day filter
     """
     print('Hello! Let\'s explore some US bikeshare data!')
-    # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
+    # TO DO: get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
+    city = None
+    city_list = ['chicago', 'new york city', 'washington']
+    while city not in city_list:
+        city = input("Would you like to see data for Chicago, New York City, or Washington?\n").lower()
+        global applied_filter
+        applied_filter = "City:" + city.title() + "   "
 
+        if city not in city_list:
+          print("Invalid option!!! Please enter the valid option.\n")
 
-    # get user input for month (all, january, february, ... , june)
+    filter_option = None
+    filter_list = ['month', 'day', 'both', 'none', 'not at all']
+    while filter_option not in filter_list:
+        filter_option = input("Would you like to filter the data by month, day, both or not at all? Type “none” for no time filter.\n").lower()
+        if city not in city_list:
+          print("Invalid option!!! Please enter the valid option.\n")
+    month_filter_flag = False
+    day_filter_flag = False
+    if filter_option == 'both':
+      month_filter_flag = True
+      day_filter_flag = True
+    elif filter_option == 'month':
+      month_filter_flag = True
+    elif filter_option == 'day':
+      day_filter_flag = True
 
+    # TO DO: get user input for month (all, january, february, ... , june)
+    month = None
+    if (month_filter_flag):
+      month_list = ['all','january', 'february', 'march', 'april', 'may', 'june']
+      while month not in month_list:
+        month = input("Which month? All, January, February, March, April, May or June\n").lower()
+        applied_filter += ("Month:" + month.title() + "   ")
+        if month not in month_list:
+          print("Invalid option!!! Please enter the valid option.\n")
 
-    # get user input for day of week (all, monday, tuesday, ... sunday)
-
+    # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
+    day = None
+    if (day_filter_flag):
+      day_list = ['all','sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
+      while day not in day_list:
+        day = input("Which day? All, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday or Saturday\n").lower()
+        applied_filter += ("Day:" + day.title())
+        if day not in day_list:
+          print("Invalid option!!! Please enter the valid option.\n")
 
     print('-'*40)
     return city, month, day
@@ -40,10 +79,30 @@ def load_data(city, month, day):
     Returns:
         df - Pandas DataFrame containing city data filtered by month and day
     """
+    df = pd.read_csv(CITY_DATA[city])
+    # convert the Start Time column to datetime
+    df['Start Time'] = pd.to_datetime(df['Start Time'])
 
+    # extract month and day of week from Start Time to create new columns
+    df['Month'] = df['Start Time'].dt.month
+    df['Day of week'] = df['Start Time'].dt.day_name()
+    df['Start hour'] = df['Start Time'].dt.hour
 
+    # filter by month if applicable
+    if month != 'all' and month != None:
+        # use the index of the months list to get the corresponding int
+        months = ['january', 'february', 'march', 'april', 'may', 'june']
+        month = (months.index(month) + 1)
+
+        # filter by month to create the new dataframe
+        df = df[df['Month'] == month]
+
+    # filter by day of week if applicable
+    if day != 'all' and day != None:
+        # filter by day of week to create the new dataframe
+        df = df[df['Day of week'] == day.title()]
+    # print(df)
     return df
-
 
 def time_stats(df):
     """Displays statistics on the most frequent times of travel."""
