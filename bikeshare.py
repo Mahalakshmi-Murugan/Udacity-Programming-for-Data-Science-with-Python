@@ -68,16 +68,28 @@ def station_stats(df):
     """Displays statistics on the most popular stations and trip."""
 
     print('\nCalculating The Most Popular Stations and Trip...\n')
+    print("Applied Filter >> {}".format(applied_filter))
     start_time = time.time()
 
-    # display most commonly used start station
+    print('\n...Popular Station...')
+    # TO DO: display most commonly used start station
+    start_station = df['Start Station'].mode()[0]
+    start_station_counts = df[df['Start Station'] == start_station].count()[0]
+    print("Start Station:{}, Count:{}".format(start_station, start_station_counts))
 
+    # TO DO: display most commonly used end station
+    end_station = df['End Station'].mode()[0]
+    end_station_counts = df[df['End Station'] == end_station].count()[0]
+    print("End Station:{}, Count:{}".format(end_station, end_station_counts))
+    # print("Start Station:{}, Count:{} - End Station:{}, Count:{}, Filter:{}".format(start_station, start_station_counts, end_station, end_station_counts, applied_filter))
 
-    # display most commonly used end station
-
-
-    # display most frequent combination of start station and end station trip
-
+    print('\n...Popular Trip...')
+    df['Trip combination'] = df['Start Station']+' - '+df['End Station']
+    # print(df)
+    # TO DO: display most frequent combination of start station and end station trip
+    popular_trip_station = df['Trip combination'].mode()[0]
+    popular_trip_station_counts = df[df['Trip combination'] == popular_trip_station].count()[0]
+    print("Trip:({}, {}), Count:{}".format(popular_trip_station.split(" - ")[0], popular_trip_station.split(" - ")[1], popular_trip_station_counts))
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
