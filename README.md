@@ -4,6 +4,9 @@
 ### Description
 This is one of the project in [Programming for Data Science with Python Nanodegree](https://www.udacity.com/course/programming-for-data-science-nanodegree--nd104)
 
+### Course Overview
+In this course, you will first learn how to write basic Python statements using building blocks like the print statement, variables, and different data types. You will then look into ways to group and order data types into different data structures. With an understanding of how data is structured and organized in programming, you will then control the flow of your code with conditionals, loops, and functions. Then, in the Scripting lesson, you will combine all the concepts you've learned and write and run code in your local environment. Lastly, you will learn to apply Python to Data Science, using some pre-built collections of code, or packages. These include NumPy, a package for efficient scientific computation, and pandas, a popular data science package for manipulating data that's built on top of NumPy.
+
 ### Project Overview
 In this project, you will make use of Python to explore data related to bike share systems for three major cities in the United States - Chicago, New York City, and Washington. You will write code to import the data and answer interesting questions about it by computing descriptive statistics. You will also write a script that takes in raw input to create an interactive experience in the terminal to present these statistics.
 
