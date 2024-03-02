@@ -151,6 +151,19 @@ def user_stats(df):
     print('-'*40)
 
 
+def individual_trip_data(df):
+    total_records_count = df.count()[0]
+    record_count = 0
+    next_page_flag = True
+    while next_page_flag != False and record_count < total_records_count:
+      individual_record = input('\nWould you like to view individual trip data? Type ‘yes’ or ‘no’.\n')
+      if individual_record.lower() == 'yes':
+        print(df[record_count:(record_count+5)])
+        record_count +=5
+      else:
+        next_page_flag = False
+
+
 def main():
     while True:
         city, month, day = get_filters()
@@ -160,6 +173,8 @@ def main():
         station_stats(df)
         trip_duration_stats(df)
         user_stats(df)
+
+        individual_trip_data(df)
 
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
