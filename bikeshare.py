@@ -99,12 +99,16 @@ def trip_duration_stats(df):
     """Displays statistics on the total and average trip duration."""
 
     print('\nCalculating Trip Duration...\n')
+    print("Applied Filter >> {}".format(applied_filter))
     start_time = time.time()
 
-    # display total travel time
+    # TO DO: display total travel time
+    total_travel_time = df['Trip Duration'].sum()
+    total_travel_counts = df['Trip Duration'].count()
+    avg_travel_time = df['Trip Duration'].mean()
+    print("Total Duration:{}, Count:{}, Average Duration:{}".format(total_travel_time.round(2), total_travel_counts, avg_travel_time.round(2)))
 
-
-    # display mean travel time
+    # TO DO: display mean travel time
 
 
     print("\nThis took %s seconds." % (time.time() - start_time))
